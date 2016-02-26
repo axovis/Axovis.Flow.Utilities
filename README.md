@@ -32,6 +32,8 @@ ViewHelpers
 
 **RegexViewHelper** - match/replace strings using regex pattern
 
+**StripTagsViewHelper** - equivalent to phps's in_array(), but accepts allowed as array('br','p','a')
+
 **InArrayViewHelper** - equivalent to phps's in_array()
 
 **ArrayKeysViewHelper** - equivalent to phps's array_keys()
