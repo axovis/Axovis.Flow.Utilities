@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" source-language="en" datatype="plaintext">
+		<body>
+            <!-- PasswordValidator -->
+			<trans-unit id="1444044227" xml:space="preserve">
+				<source>Password and password confirmation do not match.</source>
+			</trans-unit>
+            <trans-unit id="1444051234" xml:space="preserve">
+                <source>The password must contain at least {0,number} characters</source>
+            </trans-unit>
+			<trans-unit id="1444051486" xml:space="preserve">
+				<source>A password is required.</source>
+			</trans-unit>
+
+            <!-- EmailAddressValidator -->
+            <trans-unit id="1444052409" xml:space="preserve">
+				<source>E-Mail address must not be empty.</source>
+			</trans-unit>
+			<trans-unit id="1221559976" xml:space="preserve">
+				<source>E-Mail address is not valid.</source>
+			</trans-unit>
+            <trans-unit id="1444053008" xml:space="preserve">
+				<source>E-Mail address is already in use.</source>
+			</trans-unit>
+
+            <!-- TimeStringValidator -->
+            <trans-unit id="1444133687" xml:space="preserve">
+				<source>Time must not be empty.</source>
+			</trans-unit>
+			<trans-unit id="1444133962" xml:space="preserve">
+				<source>Time format is not valid. Specify time like "13:37" or "1:37 PM" </source>
+			</trans-unit>
+
+            <!-- DateStringValidator -->
+            <trans-unit id="1444135151" xml:space="preserve">
+				<source>Date must not be empty.</source>
+			</trans-unit>
+			<trans-unit id="1444135159" xml:space="preserve">
+				<source>Date format is not valid. Specify date like "01.02.2015" or "02/01/2015".</source>
+			</trans-unit>
+
+            <!-- TimeStringValidator -->
+            <trans-unit id="1445010772" xml:space="preserve">
+				<source>Color must not be empty.</source>
+			</trans-unit>
+			<trans-unit id="1445011132" xml:space="preserve">
+				<source>Color format is not valid. Specify color like "#ffffff" or "rgb(255,255,255)" </source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
