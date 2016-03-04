@@ -21,12 +21,13 @@ class RegexViewHelper extends AbstractViewHelper implements CompilableInterface 
      * @param string|array $pattern
      * @param string $matches variable to store matches in
      * @param string|array $replace string or array of strings to replace
+     * @param int $limit
      * @return string the altered string.
      * @throws \Exception
      * @api
      */
-    public function render($value = null,$pattern,$matches = '',$replace = null) {
-        return self::renderStatic(array('value' => $value,'pattern' => $pattern,'matches' => $matches,'replace' => $replace), $this->buildRenderChildrenClosure(), $this->renderingContext);
+    public function render($value = null,$pattern,$matches = '',$replace = null,$limit = -1) {
+        return self::renderStatic(array('value' => $value,'pattern' => $pattern,'matches' => $matches,'replace' => $replace,'limit' => $limit), $this->buildRenderChildrenClosure(), $this->renderingContext);
     }
 
     /**
@@ -46,6 +47,7 @@ class RegexViewHelper extends AbstractViewHelper implements CompilableInterface 
         $pattern = $arguments['pattern'];
         $matchesVariable = $arguments['matches'];
         $replace = $arguments['replace'];
+        $limit = $arguments['limit'];
 
         if(preg_match($pattern,$subject,$matches) === false) {
             throw new \Exception("An error occured while matching pattern \"" . $pattern . "\" on \"" . $subject . "\"");
@@ -58,7 +60,7 @@ class RegexViewHelper extends AbstractViewHelper implements CompilableInterface 
                 $variableContainer->add($matchesVariable,$matches);
             }
             if($replace != null) {
-                $subject = preg_replace($pattern,$replace,$subject);
+                $subject = preg_replace($pattern,$replace,$subject,$limit);
             }
         }
 
