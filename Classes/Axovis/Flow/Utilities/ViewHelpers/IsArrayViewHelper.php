@@ -6,7 +6,7 @@ use TYPO3\Flow\Annotations as Flow;
 
 class IsArrayViewHelper extends AbstractViewHelper {
     /**
-     * @param array $array
+     * @param string|array|object $array
      * @return boolean
      */
     public function render($array) {
