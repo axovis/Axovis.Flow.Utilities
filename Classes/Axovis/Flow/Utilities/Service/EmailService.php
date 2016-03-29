@@ -1,6 +1,7 @@
 <?php
 namespace Axovis\Flow\Utilities\Service;
 
+use Axovis\Flow\Utilities\Email\EmailBackendInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Exception;
 use TYPO3\Flow\I18n\Exception\InvalidLocaleIdentifierException;
@@ -36,6 +37,12 @@ class EmailService {
     protected $translator;
 
     /**
+     * @Flow\Inject
+     * @var EmailBackendInterface
+     */
+    protected $backend;
+
+    /**
      * @param string $packageKey
      * @param string $templateIdentifier name of the email template to use @see renderEmailBody()
      * @param string $subject subject of the email
@@ -48,14 +55,8 @@ class EmailService {
         $this->initializeRouter();
         $plaintextBody = $this->renderEmailBody($packageKey, $templateIdentifier, 'txt', $variables);
         $htmlBody = $this->renderEmailBody($packageKey, $templateIdentifier, 'html', $variables);
-        $mail = new \TYPO3\SwiftMailer\Message();
-        $mail
-            ->setFrom($sender)
-            ->setTo($recipient)
-            ->setSubject($subject)
-            ->setBody($plaintextBody)
-            ->addPart($htmlBody, 'text/html');
-        return $this->sendMail($mail);
+        
+        return $this->backend->send($sender,$recipient,$subject,$plaintextBody,$htmlBody);
     }
 
     /**
@@ -102,11 +103,11 @@ class EmailService {
             ->setBody($plainTextBody);
 
         $htmlBody = $this->translator->translateById($htmlId,$variables,null,$localeObject,$source,$packageKey);
-        if($htmlBody != $htmlId) {
-            $mail->addPart($htmlBody, 'text/html');
+        if($htmlBody == $htmlId) {
+            $htmlBody = null;
         }
 
-        return $this->sendMail($mail);
+        return $this->backend->send($sender,$recipient,$subject,$plainTextBody,$htmlBody);
     }
 
     /**
@@ -128,31 +129,7 @@ class EmailService {
 
         return $standaloneView->render();
     }
-    /**
-     * Sends a mail and creates a system logger entry if sending failed
-     *
-     * @param \TYPO3\SwiftMailer\Message $mail
-     * @return boolean TRUE on success, otherwise FALSE
-     */
-    protected function sendMail(\TYPO3\SwiftMailer\Message $mail) {
-        $numberOfRecipients = 0;
-        // ignore exceptions but log them
-        $exceptionMessage = '';
-        try {
-            $numberOfRecipients = $mail->send();
-        } catch (\Exception $e) {
-            $exceptionMessage = $e->getMessage();
-        }
-        if ($numberOfRecipients < 1) {
-            $this->systemLogger->log('Could not sent notification email "' . $mail->getSubject() . '"', LOG_ERR, array(
-                'exception' => $exceptionMessage,
-                'message' => $mail->getSubject(),
-                'id' => (string)$mail->getHeaders()->get('Message-ID')
-            ));
-            return FALSE;
-        }
-        return TRUE;
-    }
+
     /**
      * Initialize the injected router-object
      *

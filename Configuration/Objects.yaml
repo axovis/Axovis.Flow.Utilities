@@ -1,0 +1,3 @@
+Axovis\Flow\Utilities\Email\EmailBackendInterface:
+  className: Axovis\Flow\Utilities\Email\SwiftMailerBackend
+  scope: singleton
