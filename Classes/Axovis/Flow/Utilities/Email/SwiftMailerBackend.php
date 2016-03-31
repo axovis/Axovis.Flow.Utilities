@@ -7,8 +7,13 @@ use TYPO3\Flow\Annotations as Flow;
  * @Flow\Scope("singleton")
  */
 class SwiftMailerBackend implements EmailBackendInterface {
+    /**
+     * @Flow\Inject
+     * @var \TYPO3\Flow\Log\SystemLoggerInterface
+     */
+    protected $systemLogger;
+    
     public function send($from, $to, $subject, $textBody = null, $htmlBody = null, $attachments = array(), $tags = null) {
-        \TYPO3\Flow\var_dump('swift!');
         $mail = new \TYPO3\SwiftMailer\Message();
         $mail
             ->setFrom($from)

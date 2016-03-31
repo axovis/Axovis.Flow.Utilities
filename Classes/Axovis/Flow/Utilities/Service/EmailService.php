@@ -14,12 +14,6 @@ use TYPO3\Flow\I18n\Translator;
 class EmailService {
     /**
      * @Flow\Inject
-     * @var \TYPO3\Flow\Log\SystemLoggerInterface
-     */
-    protected $systemLogger;
-
-    /**
-     * @Flow\Inject
      * @var \TYPO3\Flow\Configuration\ConfigurationManager
      */
     protected $configurationManager;
