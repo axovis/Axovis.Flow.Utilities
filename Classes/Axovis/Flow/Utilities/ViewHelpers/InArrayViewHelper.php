@@ -9,10 +9,11 @@ class InArrayViewHelper extends AbstractViewHelper {
     /**
      * @param string $needle
      * @param array|\Traversable $haystack
+     * @param bool $typeSafety
      * @return boolean
      * @throws Exception
      */
-    public function render($needle,$haystack) {
+    public function render($needle,$haystack, $typeSafety = true) {
         if(is_array($haystack)) {
             return in_array($needle,$haystack);
         } else if($haystack instanceof \Traversable) {
@@ -25,7 +26,10 @@ class InArrayViewHelper extends AbstractViewHelper {
             return false;
         }
 
-        throw new Exception("'haystack' has to be an array or instance of Traversable.");
+        if($typeSafety) {
+            throw new Exception("'haystack' has to be an array or instance of Traversable.");
+        }
+        return false;
     }
 }
 ?>
