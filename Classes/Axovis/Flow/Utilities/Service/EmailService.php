@@ -26,6 +26,12 @@ class EmailService {
 
     /**
      * @Flow\Inject
+     * @var \TYPO3\Flow\Log\SystemLoggerInterface
+     */
+    protected $systemLogger;
+
+    /**
+     * @Flow\Inject
      * @var Translator
      */
     protected $translator;
@@ -117,11 +123,17 @@ class EmailService {
         $request = $standaloneView->getRequest();
         $request->setControllerPackageKey($packageKey);
 
-        $templatePathAndFilename = sprintf('resource://' . $packageKey . '/Private/Templates/Mails/%s.%s', $templateIdentifier, $format);
+        $templatePathAndFilename = sprintf('resource://%s/Private/Templates/Mails/%s.%s', $packageKey, $templateIdentifier, $format);
         $standaloneView->setTemplatePathAndFilename($templatePathAndFilename);
         $standaloneView->assignMultiple($variables);
 
-        return $standaloneView->render();
+        try {
+            return $standaloneView->render();
+        } catch(\Exception $e) {
+            $this->systemLogger->logException($e);
+        }
+
+        return null;
     }
 
     /**

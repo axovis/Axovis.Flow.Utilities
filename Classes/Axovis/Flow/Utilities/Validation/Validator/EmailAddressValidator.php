@@ -12,7 +12,7 @@ class EmailAddressValidator extends FlowEmailAddressValidator {
      */
     protected $accountRepository;
 
-    /*
+    /**
      * @var boolean
      */
     protected $acceptsEmptyValues = false;

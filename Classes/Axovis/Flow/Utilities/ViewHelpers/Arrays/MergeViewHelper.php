@@ -1,25 +1,25 @@
 <?php
-namespace Axovis\Flow\Utilities\ViewHelpers;
+namespace Axovis\Flow\Utilities\ViewHelpers\Arrays;
 
 use TYPO3\Flow\Exception;
 use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\Flow\Annotations as Flow;
 
-class ArrayPutViewHelper extends AbstractViewHelper {
+class MergeViewHelper extends AbstractViewHelper {
     /**
      * @param string $array
-     * @param mixed $putValue
-     * @param string $putKey
+     * @param mixed $merge
      * @param boolean $create
+     * @param boolean $override
      * @return array
      * @throws Exception
      */
-    public function render($array,$putValue,$putKey = null,$create = false) {
+    public function render($array,$merge,$create = false,$override = false) {
         if(!$this->templateVariableContainer->exists($array)) {
             if(!$create) {
                 throw new Exception("variable \"" . $array . "\" is not set");
             } else {
-                $this->templateVariableContainer->add($array,array($putValue));
+                $this->templateVariableContainer->add($array,$merge);
                 return;
             }
         }
@@ -29,10 +29,12 @@ class ArrayPutViewHelper extends AbstractViewHelper {
             throw new Exception("\"" . $array . "\" is not an array");
         }
 
-        if($putKey == null) {
-            $value[] = $putValue;
-        } else {
-            $value[$putKey] = $putValue;
+        foreach($merge as $arrayKey => $arrayValue) {
+            if(isset($value[$arrayKey]) && !$override) {
+                continue;
+            }
+            
+            $value[$arrayKey] = $arrayValue;
         }
 
         $this->templateVariableContainer->remove($array);
