@@ -4,7 +4,7 @@ namespace Axovis\Flow\Utilities\Validation\Validator;
 use TYPO3\Flow\Validation\Validator\AbstractValidator;
 
 class PasswordValidator extends AbstractValidator {
-    /*
+    /**
      * @var boolean
      */
     protected $acceptsEmptyValues = false;
