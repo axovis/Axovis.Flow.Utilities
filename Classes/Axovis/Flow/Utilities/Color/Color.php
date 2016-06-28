@@ -5,48 +5,33 @@ class Color {
 	const FORMAT_RGBA = 0;
 	const FORMAT_HEX = 1;
 
-	protected $r = 0;
-	protected $g = 0;
-	protected $b = 0;
-	protected $a = 1;
+	public $r = 0;
+    public $g = 0;
+    public $b = 0;
+    public $a = 1;
 
 	/**
 	* All values are floats from 0 to 1 
 	*
-	* @param float $r
+	* @param float|Color $r
 	* @param float $g
 	* @param float $b
-	* @param float $a
+    * @param float $a
 	*/
-	public function __construct($r = 0; $g = 0; $b = 0; $a = 1) {
+	public function __construct($r = 0.0, $g = 0.0, $b = 0.0, $a = 1.0) {
+        if($r instanceof Color) {
+            $this->r = $r->r;
+            $this->g = $r->g;
+            $this->b = $r->b;
+            $this->a = $r->a;
+            
+            return;
+        }
+        
 		$this->r = $r;
 		$this->g = $g;
 		$this->b = $b;
 		$this->a = $a;
-	}
-
-	public function getR() {
-		return $this->r;
-	}
-
-	public function setR($r) {
-		$this->r = $r;
-	}
-
-	public function getG() {
-		return $this->g;
-	}
-
-	public function setG($g) {
-		$this->g = $g;
-	}
-
-	public function getB() {
-		return $this->b;
-	}
-
-	public function setB($b) {
-		$this->b = $b;
 	}
 
 	public function toString($format = self::FORMAT_RGBA) {
@@ -54,13 +39,19 @@ class Color {
 			case self::FORMAT_HEX:
 				return '#';
 			case self::FORMAT_RGBA:
+            default:
 				return 'rgba(' . round($this->r * 255) . ',' . round($this->g * 255) . ',' . round($this->b * 255) . ',' . number_format($this->a,3,'.','') . ')';
-			default:
-				return 
 		}
 	}
 
-	public static function fromHSV($h,$s,$v) {
+    /**
+     *
+     * @param float $h hue: value between 0 and 360
+     * @param float $s saturation: value between 0 and 1
+     * @param float $v value: value between 0 and 1
+     * @return Color
+     */
+	public static function fromHSV($h = 0.0,$s = 1.0,$v = 1.0) {
 		if($s <= 0) {
 			return new Color($v,$v,$v);
 		}

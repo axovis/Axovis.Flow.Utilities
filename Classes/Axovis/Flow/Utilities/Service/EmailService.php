@@ -123,8 +123,9 @@ class EmailService {
         $request = $standaloneView->getRequest();
         $request->setControllerPackageKey($packageKey);
 
-        $templatePathAndFilename = sprintf('resource://%s/Private/Templates/Mails/%s.%s', $packageKey, $templateIdentifier, $format);
-        $standaloneView->setTemplatePathAndFilename($templatePathAndFilename);
+        $standaloneView->setFormat($format);
+        $standaloneView->setTemplatePathAndFilename(sprintf('resource://%s/Private/Templates/Mails/%s.%s', $packageKey, $templateIdentifier, $format));
+        $standaloneView->setLayoutRootPath(sprintf('resource://%s/Private/Layouts/', $packageKey));
         $standaloneView->assignMultiple($variables);
 
         try {
