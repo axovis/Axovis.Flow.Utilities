@@ -95,13 +95,6 @@ class EmailService {
             $plainTextBody = $this->translator->translateById($translationId,$variables,null,$localeObject,$source,$packageKey);
         }
 
-        $mail = new \TYPO3\SwiftMailer\Message();
-        $mail
-            ->setFrom($sender)
-            ->setTo($recipient)
-            ->setSubject($subject)
-            ->setBody($plainTextBody);
-
         $htmlBody = $this->translator->translateById($htmlId,$variables,null,$localeObject,$source,$packageKey);
         if($htmlBody == $htmlId) {
             $htmlBody = null;

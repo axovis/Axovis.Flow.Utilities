@@ -1,0 +1,10 @@
+privilegeTargets:
+  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    'Axovis.Flow.Utilities:Email':
+      matcher: 'method(public Axovis\Flow\Utilities\Controller\EmailController->.*Action())'
+roles:
+  'TYPO3.Flow:Everybody':
+    privileges:
+      -
+        privilegeTarget: 'Axovis.Flow.Utilities:Email'
+        permission: GRANT
