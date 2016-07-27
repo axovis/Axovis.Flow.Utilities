@@ -1,6 +1,7 @@
 <?php
 namespace Axovis\Flow\Utilities\Email;
 
+use Swift_Attachment;
 use TYPO3\Flow\Annotations as Flow;
 
 /**
@@ -13,13 +14,24 @@ class SwiftMailerBackend implements EmailBackendInterface {
      */
     protected $systemLogger;
     
-    public function send($from, $to, $subject, $textBody = null, $htmlBody = null, $attachments = array(), $tags = null) {
+    public function send($from, $to, $subject, $textBody = null, $htmlBody = null, $attachments = array(), $tags = null, $cc = null, $bcc = null) {
         $mail = new \TYPO3\SwiftMailer\Message();
         $mail
             ->setFrom($from)
             ->setTo($to)
             ->setSubject($subject)
             ->setBody($textBody);
+        
+        if($cc != null) {
+            $mail->setCc($cc);
+        }
+        if($bcc != null) {
+            $mail->setBcc($bcc);
+        }
+
+        foreach ($attachments as $attach) {
+            $mail->attach(Swift_Attachment::fromPath($attach));
+        }
         
         if($htmlBody != null) {
             $mail->addPart($htmlBody,'text/html');

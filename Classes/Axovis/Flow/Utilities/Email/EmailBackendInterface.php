@@ -10,7 +10,9 @@ interface EmailBackendInterface {
      * @param string $htmlBody
      * @param array $attachments
      * @param array $tags
+     * @param array $cc
+     * @param array $bcc
      * @return bool
      */
-    public function send($from, $to, $subject, $textBody = null, $htmlBody = null, $attachments = array(), $tags = null);
+    public function send($from, $to, $subject, $textBody = null, $htmlBody = null, $attachments = array(), $tags = null, $cc = null, $bcc = null);
 }

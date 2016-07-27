@@ -49,14 +49,17 @@ class EmailService {
      * @param array $sender sender of the email in the format array('<emailAddress>' => '<name>')
      * @param array $recipient recipient of the email in the format array('<emailAddress>' => '<name>')
      * @param array $variables variables that will be available in the email template. in the format array('<key>' => '<value>', ....)
+     * @param array $cc
+     * @param array $bcc
+     * @param array $attachments
      * @return boolean TRUE on success, otherwise FALSE
      */
-    public function sendTemplateBasedEmail($packageKey,$templateIdentifier, $subject, array $sender, array $recipient, array $variables = array()) {
+    public function sendTemplateBasedEmail($packageKey,$templateIdentifier, $subject, array $sender, array $recipient, array $variables = array(),$cc = null,$bcc = null,$attachments = array()) {
         $this->initializeRouter();
         $plaintextBody = $this->renderEmailBody($packageKey, $templateIdentifier, 'txt', $variables);
         $htmlBody = $this->renderEmailBody($packageKey, $templateIdentifier, 'html', $variables);
         
-        return $this->backend->send($sender,$recipient,$subject,$plaintextBody,$htmlBody);
+        return $this->backend->send($sender,$recipient,$subject,$plaintextBody,$htmlBody,$attachments,null,$cc,$bcc);
     }
 
     /**
@@ -73,10 +76,13 @@ class EmailService {
      * @param array $variables variables that will be available in the email template. in the format array('<key>' => '<value>', ....)
      * @param string $locale locale to use (null => current locale)
      * @param string $source the source to get the translation from
+     * @param array $cc
+     * @param array $bcc
+     * @param array $attachments
      * @return bool TRUE on success, otherwise FALSE
      * @throws Exception
      */
-    public function sendTranslationBasedEmail($packageKey = 'TYPO3.Flow', $translationId, array $sender, array $recipient, array $variables = array(), $locale = null, $source = 'Mails') {
+    public function sendTranslationBasedEmail($packageKey = 'TYPO3.Flow', $translationId, array $sender, array $recipient, array $variables = array(), $locale = null, $source = 'Mails',$cc = null,$bcc = null,$attachments = array()) {
         $localeObject = null;
         if ($locale !== null) {
             try {
@@ -100,7 +106,7 @@ class EmailService {
             $htmlBody = null;
         }
 
-        return $this->backend->send($sender,$recipient,$subject,$plainTextBody,$htmlBody);
+        return $this->backend->send($sender,$recipient,$subject,$plainTextBody,$htmlBody,$attachments,null,$cc,$bcc);
     }
 
     /**
@@ -124,7 +130,7 @@ class EmailService {
         try {
             return $standaloneView->render();
         } catch(\Exception $e) {
-            $this->systemLogger->logException($e);
+            //$this->systemLogger->logException($e);
         }
 
         return null;
