@@ -5,23 +5,12 @@
     "license": "LGPL-3.0+",
     "require": {
         "typo3/flow": "~3.0",
-        "typo3/swiftmailer": "5.3.*"
+        "typo3/swiftmailer": "5.4.*"
     },
-    "authors": [
-        {
-            "name": "Sönke Michelsen",
-            "email": "s.michelsen@axovis.com",
-            "homepage": "http://www.axovis.com",
-            "role": "Developer"
-        }
-    ],
     "keywords": ["flow","swiftmailer","email","validator","viewhelper"],
     "autoload": {
         "psr-0": {
             "Axovis\\Flow\\Utilities": "Classes"
         }
-    },
-    "extra": {
-        "marketplace-account": "s.michelsen@axovis.com"
     }
 }
